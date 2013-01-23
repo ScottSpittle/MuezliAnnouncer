@@ -62,7 +62,6 @@ public class MuezliAnnouncer extends JavaPlugin{
     public void broadcastAnnounce(){
     	if (this.getServer().getOnlinePlayers().length >= 1){
     		ConfigManager cfManager = new ConfigManager(this);
-    		blo.logger.info("Announcing " + counter);
     		if(counter >= cfManager.getMessages().length){
     			counter = 0;
     		}
