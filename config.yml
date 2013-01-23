@@ -1,0 +1,9 @@
+#Initial Delay, this is when the server starts.
+initialDelay: 20
+#announcementDelay, this is the time in server ticks between announcements. 1200 = 1 Minuite.
+announcementDelay: 1200
+#Here you can set the prefix for your announcements
+announcementPrefix: '&4[Announcement]&6'
+#List you announcements below.
+announcements:
+- This is the example &4Announcement.

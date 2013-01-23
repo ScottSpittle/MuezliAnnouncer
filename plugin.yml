@@ -1,0 +1,6 @@
+name: MuezliAnnouncer
+main: me.ScottSpittle.MuezliAnnouncer.MuezliAnnouncer
+authors: [ScottSpittle]
+version: 1.0
+softdepend: [Vault]
+description: Muezli's Auto Announcer
