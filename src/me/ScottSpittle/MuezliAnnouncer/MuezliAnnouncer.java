@@ -46,7 +46,7 @@ public class MuezliAnnouncer extends JavaPlugin{
         this.scheduleAnnouncerTask(cfManager.getInitialDelay(), cfManager.getMessageDelay());
 	}
     
-	//Creates the config file ..
+	//Creates the config file
 	public void createConfig(){
 		File file = new File(getDataFolder()+File.separator+"config.yml");
 		if(!file.exists()){
