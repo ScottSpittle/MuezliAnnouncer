@@ -17,8 +17,14 @@ package me.ScottSpittle.MuezliAnnouncer;
 
 import java.io.File;
 
+import net.milkbowl.vault.permission.Permission;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -28,6 +34,8 @@ public class MuezliAnnouncer extends JavaPlugin{
 	public final BukkitLogger blo = new BukkitLogger(this);
 	public final ConfigManager cfManager = new ConfigManager(this);
 	public int counter = 0;
+    public static Permission perms = null;
+    public boolean isPlayer = false;
 
 	@Override
 	public void onDisable(){
@@ -42,8 +50,17 @@ public class MuezliAnnouncer extends JavaPlugin{
 	    //run BukkitLogger class on enable.
 		blo.enabled(true);
 		//create config if it doesn't exsist
+		//using vault setting up permissions.
+		setupPermissions();
 		createConfig();
         this.scheduleAnnouncerTask(cfManager.getInitialDelay(), cfManager.getMessageDelay());
+	}
+	
+	//Register Permissions via Vault.
+	private boolean setupPermissions() {
+		RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+		perms = rsp.getProvider();
+		return perms != null;
 	}
     
 	//Creates the config file
@@ -113,6 +130,33 @@ public class MuezliAnnouncer extends JavaPlugin{
 		announce = announce.replaceAll("&o",	ChatColor.ITALIC.toString());
 		announce = announce.replaceAll("&r",	ChatColor.RESET.toString());
 		return announce;
+	}
+	
+	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
+		if(sender instanceof Player){
+			isPlayer = true;
+		}
+		if(commandLabel.equalsIgnoreCase("announce")){
+			if(isPlayer){
+				Player player = (Player) sender;
+				if(args.length == 0){
+					return false;
+				}
+				if(args.length >= 1){
+					if (args[0].equalsIgnoreCase("reload")) {
+						if(perms.has(player, "muezli.announce.reload")){
+							plugin.reloadConfig();
+						}else{
+							player.sendMessage(ChatColor.RED + "you don't have permission to use that command");
+						}
+						return true;
+					}
+				}
+			}else{
+				sender.sendMessage(ChatColor.RED + "You must be a player");
+			}
+		}
+			return false;
 	}
 
 	//Disables the plugin
