@@ -8,3 +8,5 @@ commands:
     description: Reload plugin Config
     usage: |
         /<command> reload - reloads config.
+        /<command> add [announcement message]- Adds an announcement to the config.
+        /<command> set <prefix/delay> [prefix/delay]- Change the prefix or delay of the announcements.
