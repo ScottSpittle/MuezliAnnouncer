@@ -1,12 +1,14 @@
 name: MuezliAnnouncer
 main: me.ScottSpittle.MuezliAnnouncer.MuezliAnnouncer
 authors: [ScottSpittle]
-version: 1.2
+version: 1.3
 description: Muezli's Auto Announcer
 commands:
   announce:
     description: Reload plugin Config
     usage: |
         /<command> reload - reloads config.
+        /<command> list - List announcements.
         /<command> add [announcement message]- Adds an announcement to the config.
+        /<command> remove [index of announcement]- Removes and announcement.
         /<command> set <prefix/delay> [prefix/delay]- Change the prefix or delay of the announcements.

@@ -194,10 +194,29 @@ public class MuezliAnnouncer extends JavaPlugin {
 					}
 					return true;
 				}
+				if (args[0].equalsIgnoreCase("list")) {
+					if (perms.has(player, "muezli.announce.list")) {
+
+						@SuppressWarnings("unchecked")
+						List<String> announcementList = (List<String>) this
+								.getConfig().getList("announcements");
+
+						for (int x = 0; x < announcementList.size(); x++) {
+							player.sendMessage(ChatColor.GOLD + "" + x + ". "
+									+ ChatColor.RESET
+									+ colorize(announcementList.get(x)));
+						}
+					} else {
+						player.sendMessage(ChatColor.RED
+								+ "you don't have permission to use that command");
+					}
+					return true;
+				}
 				if (args[0].equalsIgnoreCase("set")) {
 					if (args[1].equalsIgnoreCase("prefix")) {
 						if (perms.has(player, "muezli.announce.add")) {
-							String prefix = StringUtils.join(args, " ", 2, args.length);
+							String prefix = StringUtils.join(args, " ", 2,
+									args.length);
 							this.getConfig().set("announcementPrefix", prefix);
 							saveConfig();
 
@@ -223,6 +242,36 @@ public class MuezliAnnouncer extends JavaPlugin {
 						}
 						return true;
 					}
+				}
+				if (args[0].equalsIgnoreCase("remove")) {
+
+					@SuppressWarnings("unchecked")
+					List<String> announcementList = (List<String>) this
+							.getConfig().getList("announcements");
+
+					if (perms.has(player, "muezli.announce.add")) {
+						try {
+							Integer.parseInt(args[1]);
+							int indx = Integer.parseInt(args[1]);
+							if (indx < announcementList.size()) {
+								announcementList.remove(indx);
+								saveConfig();
+								player.sendMessage(ChatColor.GREEN
+										+ "Successfully removed announcement "
+										+ indx);
+							} else {
+								player.sendMessage(ChatColor.RED
+										+ "Im sorry, I can't find that annoncement, try /announce list");
+							}
+						} catch (Exception e) {
+							player.sendMessage(ChatColor.RED
+									+ "Im sorry, you didn't give an announcement index");
+						}
+					} else {
+						player.sendMessage(ChatColor.RED
+								+ "you don't have permission to use that command");
+					}
+					return true;
 				}
 			} else {
 				sender.sendMessage(ChatColor.RED + "You must be a player");
